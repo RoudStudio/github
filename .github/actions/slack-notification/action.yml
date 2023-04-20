@@ -1,0 +1,31 @@
+name: 'Slack Notification'
+description: 'Report GitHub Actions build status on Slack'
+branding:
+  icon: message-square
+  color: orange
+inputs:
+  channel:
+    description: 'The Slack channel name. Required if no `channel_id` provided.'
+    required: false
+  channel_id:
+    description: 'The Slack channel ID. Required if no `channel` provided.'
+    required: false
+  status:
+    description: 'The status to list in the update.'
+    required: true
+  color:
+    description: 'The color of the Slack attachment.'
+    required: true
+    default: '#cccccc'
+  message_id:
+    description: 'The ID of the existing Slack message to update.'
+    required: false
+  url:
+    description: 'Deployment url.'
+    required: false
+outputs:
+  message_id:
+    description: 'The unique timestamp identifier of the Slack message sent'
+runs:
+  using: 'node16'
+  main: './index.js'
