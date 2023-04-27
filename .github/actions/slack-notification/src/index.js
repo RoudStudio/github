@@ -4,9 +4,10 @@ import { WebClient } from '@slack/web-api';
 import format from 'date-fns/format';
 
 function buildSlackPayload({ status, color, url, actor }) {
-  const { workflow } = context;
+  const { payload, workflow, eventName } = context;
   const { owner, repo } = context.repo;
-
+  const branch = eventName === 'pull_request' ? payload.pull_request.head.ref : context.ref.replace('refs/heads/', '');
+  const sha = eventName === 'pull_request' ? payload.pull_request.head.sha : context.sha;
   const runId = parseInt(process.env.GITHUB_RUN_ID, 10);
 
   return {
@@ -36,7 +37,7 @@ function buildSlackPayload({ status, color, url, actor }) {
             "type": "section",
             "text": {
               "type": "mrkdwn",
-              "text": `*Workflow:* <https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}> \n *Initiated by:* ${actor || context.actor} \n *Status:* ${status} ${ url ? ` <${url} | Open>` : '' }`
+              "text": `*Workflow:* <https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}> \n *Initiated by:* ${actor || context.actor}    *Branch:* <https://github.com/${owner}/${repo}/commit/${sha} | ${branch}> \n *Status:* ${status} ${ url ? ` <${url} | Open>` : '' }`
             }
           }
         ],

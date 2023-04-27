@@ -21984,9 +21984,10 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 function buildSlackPayload({ status, color, url, actor }) {
-  const { workflow } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context;
+  const { payload, workflow, eventName } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context;
   const { owner, repo } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo;
-
+  const branch = eventName === 'pull_request' ? payload.pull_request.head.ref : _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.ref.replace('refs/heads/', '');
+  const sha = eventName === 'pull_request' ? payload.pull_request.head.sha : _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.sha;
   const runId = parseInt(process.env.GITHUB_RUN_ID, 10);
 
   return {
@@ -22016,7 +22017,7 @@ function buildSlackPayload({ status, color, url, actor }) {
             "type": "section",
             "text": {
               "type": "mrkdwn",
-              "text": `*Workflow:* <https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}> \n *Initiated by:* ${actor || _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.actor} \n *Status:* ${status} ${ url ? ` <${url} | Open>` : '' }`
+              "text": `*Workflow:* <https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}> \n *Initiated by:* ${actor || _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.actor}    *Branch:* <https://github.com/${owner}/${repo}/commit/${sha} | ${branch}> \n *Status:* ${status} ${ url ? ` <${url} | Open>` : '' }`
             }
           }
         ],
