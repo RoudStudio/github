@@ -1,18 +1,18 @@
 {
   "name": "github-actions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "Apache-2.0",
   "scripts": {
     "build": "ncc build ./.github/actions/slack-notification/src/index.js -o ./.github/actions/slack-notification/"
   },
   "devDependencies": {
-    "@actions/core": "^1.10.0",
+    "@actions/core": "^1.11.1",
     "@actions/github": "^5.1.1",
-    "@slack/web-api": "^6.8.1",
-    "@vercel/ncc": "^0.36.1"
+    "@slack/web-api": "^6.13.0",
+    "@vercel/ncc": "^0.38.2"
   },
   "dependencies": {
-    "date-fns": "^2.29.3"
+    "date-fns": "^2.30.0"
   }
 }
